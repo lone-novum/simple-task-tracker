@@ -28,6 +28,7 @@ def add_task(args):
     tasks.append({
         "id": len(tasks) + 1,
         "description": args.description,
+        "status": "todo",
         "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
 
