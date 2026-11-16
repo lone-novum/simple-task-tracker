@@ -27,7 +27,7 @@ def read_file(func):
 def add_task(args):
     tasks.append({
         "id": len(tasks) + 1,
-        "description": args.task,
+        "description": args.description,
         "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     })
 
@@ -39,9 +39,25 @@ def update_task(args):
         if task["id"] == args.id:
             task["description"] = args.description
             task["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print("Task updated successfully")
             break
     else:
         print("Task not Found")
+
+@read_file
+def delete_task(args):
+    for task in tasks:
+        if task["id"] == args.id:
+            tasks.remove(task)
+            print("Task deleted successfully")
+            break
+    
+    else:
+        print("Task not Found")
+
+    for task in tasks:
+        if task["id"] > args.id:
+            task["id"] -= 1
 
 parser = ArgumentParser()
 subparser = parser.add_subparsers(dest="command", required=True)
@@ -54,6 +70,10 @@ update = subparser.add_parser('update', help="Update task")
 update.add_argument('id', type=int)
 update.add_argument('description', type=str)
 update.set_defaults(func=update_task)
+
+delete = subparser.add_parser('delete', help="Delete task")
+delete.add_argument('id', type=int)
+delete.set_defaults(func=delete_task)
 
 if __name__ == "__main__":
     args = parser.parse_args()
