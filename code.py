@@ -60,6 +60,26 @@ def delete_task(args):
         if task["id"] > args.id:
             task["id"] -= 1
 
+@read_file
+def mark_task_in_progress(args):
+    for task in tasks:
+        if task["id"] == args.id:
+            task["status"] = "in-progress"
+            print("Task in progress ...")
+            break
+    else:
+        print("Task not Found")
+
+@read_file
+def mark_task_done(args):
+    for task in tasks:
+        if task["id"] == args.id:
+            task["status"] = "done"
+            print("Task done")
+            break
+    else:
+        print("Task not Found")
+
 parser = ArgumentParser()
 subparser = parser.add_subparsers(dest="command", required=True)
 
@@ -75,6 +95,14 @@ update.set_defaults(func=update_task)
 delete = subparser.add_parser('delete', help="Delete task")
 delete.add_argument('id', type=int)
 delete.set_defaults(func=delete_task)
+
+mark_in_progress = subparser.add_parser('mark-in-progress', help="Mark task in progress")
+mark_in_progress.add_argument('id', type=int)
+mark_in_progress.set_defaults(func=mark_task_in_progress)
+
+mark_done = subparser.add_parser('mark-done', help="Mark task done")
+mark_done.add_argument('id', type=int)
+mark_done.set_defaults(func=mark_task_done)
 
 if __name__ == "__main__":
     args = parser.parse_args()
