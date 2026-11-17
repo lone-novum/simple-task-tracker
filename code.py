@@ -80,6 +80,14 @@ def mark_task_done(args):
     else:
         print("Task not Found")
 
+@read_file
+def list_task(args):
+    for task in tasks:
+        if args.status == None:
+            print(task)
+        elif task["status"] == args.status:
+            print(task)
+
 parser = ArgumentParser()
 subparser = parser.add_subparsers(dest="command", required=True)
 
@@ -103,6 +111,10 @@ mark_in_progress.set_defaults(func=mark_task_in_progress)
 mark_done = subparser.add_parser('mark-done', help="Mark task done")
 mark_done.add_argument('id', type=int)
 mark_done.set_defaults(func=mark_task_done)
+
+list_command = subparser.add_parser('list', help="List tasks")
+list_command.add_argument('status', type=str)
+list_command.set_defaults(func=list_task)
 
 if __name__ == "__main__":
     args = parser.parse_args()
