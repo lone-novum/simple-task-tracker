@@ -88,32 +88,35 @@ def list_task(args):
         elif task["status"] == args.status:
             print(task)
 
-parser = ArgumentParser()
+parser = ArgumentParser(
+    prog="stt",
+    description="A simple cli task tracker"
+)
 subparser = parser.add_subparsers(dest="command", required=True)
 
 add = subparser.add_parser('add', help="Add task")
-add.add_argument('description', type=str)
+add.add_argument('description', type=str,help="Description of task")
 add.set_defaults(func=add_task)
 
 update = subparser.add_parser('update', help="Update task")
-update.add_argument('id', type=int)
-update.add_argument('description', type=str)
+update.add_argument('id', type=int, help="ID number of task to update")
+update.add_argument('description', type=str, help="Description update")
 update.set_defaults(func=update_task)
 
 delete = subparser.add_parser('delete', help="Delete task")
-delete.add_argument('id', type=int)
+delete.add_argument('id', type=int, help="ID number of task to delete")
 delete.set_defaults(func=delete_task)
 
 mark_in_progress = subparser.add_parser('mark-in-progress', help="Mark task in progress")
-mark_in_progress.add_argument('id', type=int)
+mark_in_progress.add_argument('id', type=int, help="ID number of task to mark")
 mark_in_progress.set_defaults(func=mark_task_in_progress)
 
 mark_done = subparser.add_parser('mark-done', help="Mark task done")
-mark_done.add_argument('id', type=int)
+mark_done.add_argument('id', type=int, help="ID number of task to mark")
 mark_done.set_defaults(func=mark_task_done)
 
 list_command = subparser.add_parser('list', help="List tasks")
-list_command.add_argument('status', type=str)
+list_command.add_argument('status', type=str, help="Status to match")
 list_command.set_defaults(func=list_task)
 
 if __name__ == "__main__":
